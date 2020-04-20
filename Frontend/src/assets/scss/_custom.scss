@@ -1,0 +1,162 @@
+// Here you can add other styles
+
+// sidebar
+.c-sidebar {
+  background: linear-gradient(135deg, #e252a8, #346ba2);
+}
+.c-sidebar .c-sidebar-nav-link.c-active,
+.c-sidebar .c-active.c-sidebar-nav-dropdown-toggle {
+  background: rgba(255, 255, 255, 0.32);
+}
+.c-sidebar .c-sidebar-nav-link:hover,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.32);
+}
+.c-sidebar.c-sidebar-minimized .c-sidebar-nav-item:hover > .c-sidebar-nav-link,
+.c-sidebar.c-sidebar-minimized
+  .c-sidebar-nav-item:hover
+  > .c-sidebar-nav-dropdown-toggle {
+  background: #9185f9;
+}
+.c-sidebar .c-sidebar-nav-link:hover,
+.c-sidebar .c-sidebar-nav-dropdown-toggle:hover {
+  background: #9185f9;
+}
+.c-sidebar.c-sidebar-minimized .c-sidebar-nav > .c-sidebar-nav-dropdown:hover {
+  background: #9185f9;
+}
+.c-sidebar .c-sidebar-nav-dropdown.c-show {
+  background: transparent;
+}
+
+// Login Page
+
+.login-form {
+  max-width: 508px;
+}
+.login-container {
+  margin-top: 15%;
+}
+.login-row {
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+// Department
+
+.department-input {
+  background-color: white;
+}
+.department-table {
+  padding: 0px;
+  background-color: white;
+  min-width: 50%;
+}
+.department-form {
+  padding: 5px;
+  border: 5px solid #ebedef;
+  background-color: white;
+  min-width: 50%;
+}
+
+// Location
+.location-input {
+  background-color: white;
+}
+.location-table {
+  padding: 0px;
+  background-color: white;
+  min-width: 50%;
+}
+.location-form {
+  padding: 5px;
+  border: 5px solid #ebedef;
+  background-color: white;
+  min-width: 50%;
+}
+
+// Employee
+.employee-table {
+  background-color: white;
+  min-width: 40%;
+}
+
+// Attendance
+.attendance-table {
+  background-color: white;
+  min-width: 40%;
+}
+
+//Recognize
+.recognize-form{
+  padding: 5px;
+}
+// Loading
+.loading {
+  position: fixed;
+  left: 45%;
+  top: 50%;
+  width: 100%;
+  min-height: 100%;
+  background: transparent;
+  z-index: 1;
+  margin-top: 15px;
+}
+
+// Container
+.container-fluid,
+.container-sm,
+.container-md {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+// Other custom
+.table td {
+  vertical-align: middle;
+  //border: 0.025rem solid #d8dbe0;
+}
+.button-add-image {
+  color: #8a93a2;
+  text-align: left;
+}
+
+.button-toolbar {
+  height: 34px;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+.col {
+  padding: 5px;
+}
+
+.c-main {
+  padding-top: 25px;
+}
+.card-body {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.modal-secondary .modal-header {
+  background: linear-gradient(20deg, #c424bed1, #284bc1);
+}
+
+// Image crop-upload
+.vue-image-crop-upload .vicp-wrap {
+  max-width: 498px;
+}
+.vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4 {
+  display: none !important;
+}
+.image_profile_upload {
+  display: block;
+  width: 100%;
+  border-radius: 0.25rem;
+  margin-top: 15px;
+  margin-bottom: 15px;
+}
+

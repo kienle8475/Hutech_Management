@@ -1,0 +1,16 @@
+django
+django-cors-headers
+djangorestframework
+djangorestframework-jwt
+django-extra-fields
+mysqlclient
+mysql-connector
+cmake
+dlib
+opencv-python
+face_recognition
+numpy
+Pillow
+scipy
+mtcnn
+tensorflow
