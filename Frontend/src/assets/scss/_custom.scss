@@ -89,9 +89,49 @@
 }
 
 //Recognize
-.recognize-form{
-  padding: 5px;
+.recognize{
+  background-image: url("https://images.wallpaperscraft.com/image/train_railway_platform_124422_3840x2160.jpg");
+  height: 100vh;
 }
+.recognize-form{
+  margin: 20px;
+}
+.recognize-block{
+  border-radius:20px;
+  border: 1px solid;
+  border-color: #d8dbe0;
+  background-color: white;
+  width: 490px;
+  height: 900px;
+  margin-top: 10px; 
+  text-align: center
+}
+.recognize-header{
+  display: inline-block;
+  margin-top: 5px;
+}
+.recognize-toolbar{
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+.recognize-input{
+  width: 400px;
+  margin-left: 5px;
+  border-radius: 0rem !important;
+}
+.recognize-button{
+  border-radius: unset;
+  width: 80px;
+}
+.recognize-camera{
+  width: 480px;
+}
+.recognize-footer{
+  display: inline-block;
+  margin-top: 15px;
+}
+
+
 // Loading
 .loading {
   position: fixed;
@@ -143,6 +183,10 @@
 
 .modal-secondary .modal-header {
   background: linear-gradient(20deg, #c424bed1, #284bc1);
+}
+
+.display-4{
+  font-size: 1.8rem !important;
 }
 
 // Image crop-upload

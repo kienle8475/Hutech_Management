@@ -3,37 +3,31 @@
     <div v-if="loading">
       <ring-loader class="loading" :loading="loading" :size="40" color="#4A90E2"></ring-loader>
     </div>
-    <div v-show="!loading">
-      <CCardHeader>
-        <h4>Student Attendance System</h4>
-      </CCardHeader>
+    <div v-show="!loading" class="recognize">
       <CRow>
-        <CCol sm="3" class="recognize-form">
-          <CCard>
-            <CCardBody>
-              <CCarousel arrows indicators animate height="90vh">
-                <CCarouselItem image="https://picsum.photos/1024/480/?image=52" />
-                <CCarouselItem image="https://picsum.photos/1024/480/?image=52" />
-              </CCarousel>
-            </CCardBody>
-          </CCard>
+        <CCol sm="6" class="recognize-form"></CCol>
+        <CCol sm="5" class="recognize-form">
+          <div class="recognize-block">
+            <div class="recognize-header"></div>
+            <div>
+              <CButtonToolbar class="recognize-toolbar">
+                <Input class="mb-0 form-control recognize-input" placeholder="Input Your ID" />
+                <CButtonGroup class="mb-0 recognize-button">
+                  <CButton color="success" class="recognize-button">Submit</CButton>
+                </CButtonGroup>
+              </CButtonToolbar>
+            </div>
+            <div>
+              <img class="recognize-camera" src="/imgs/camera_background.jpg" />
+            </div>
+            <div class="recognize-footer">
+              <td>
+                <span class="display-4">Student Attendance System</span>
+              </td>
+            </div>
+          </div>
         </CCol>
-        <CCol sm="6" class="recognize-form">
-          <CCard>
-            <CCardBody>
-              <div>
-                <CInput type="number"></CInput>
-                <CButton color="success">Submit</CButton>
-              </div>
-              <img src="http://127.0.0.1:8000/video_feed_compare" />
-            </CCardBody>
-          </CCard>
-        </CCol>
-        <CCol sm="3" class="recognize-form">
-          <CCard>
-            <CCardBody></CCardBody>
-          </CCard>
-        </CCol>
+        <CCol sm="1" class="recognize-form"></CCol>
       </CRow>
     </div>
   </div>
