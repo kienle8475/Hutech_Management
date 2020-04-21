@@ -1,5 +1,9 @@
 import mysql.connector
-
+import pyrebase
+import numpy as np
+import cv2
+import face_recognition
+from Backend.database import config, database
 #KnownLocation = face_recognition.face_locations(face_recognition.load_image_file("Backend/media/images/profile/1711062345/e42cb012-17ec-433f-871e-950c8cf1eb48.png"),1,"hog")
 #FaceKnown= face_recognition.face_encodings(face_recognition.load_image_file("Backend/media/images/profile/1711062345/e42cb012-17ec-433f-871e-950c8cf1eb48.png"),KnownLocation)[0]
 #FaceLocation = face_recognition.face_locations(face_recognition.load_image_file("./temp.png"),1,"cnn")
@@ -32,17 +36,33 @@ import mysql.connector
 #cv2.waitKey(0)
 #cv2.destroyAllWindows()
 
+def getEncode(EmployeeID):
+    mydb = mysql.connector.connect(
+                host="35.221.107.80",
+                user="peaga",
+                passwd="Ltk99701299",
+                database="HutechManagement",
+                auth_plugin="mysql_native_password"
+            )
+    mycursor = mydb.cursor()
+    sql = "SELECT Encoding FROM employeesmanagement_faceencoding WHERE Employee_id = %s"
+    EID = (str(EmployeeID),)
+    mycursor.execute(sql, EID)
+    results = mycursor.fetchall()
+    FaceEncode = ''.join(myresult)
+    Face = np.fromstring(FaceEncode[1:-1], dtype=float, sep=",")       
+    return Face
 
-mydb = mysql.connector.connect(
-            host="35.221.107.80",
-            user="peaga",
-            passwd="Ltk99701299",
-            database="HutechManagement",
-            auth_plugin="mysql_native_password"
-        )
-mycursor = mydb.cursor()
-sql = "SELECT * FROM employeesmanagement_faceencoding"
-mycursor.execute(sql)
-myresult = mycursor.fetchall()
-for result in myresult:
-    print(result[2])
+config ={
+        "apiKey": "AIzaSyCMcEtmZC3UiynMtvFQFqZwdo3yXIhn_HE",
+        "authDomain": "learningfirebasedatabasepython.firebaseapp.com",
+        "databaseURL":"https://learningfirebasedatabasepython.firebaseio.com/",
+        "storageBucket":"Customer.appspot.com"
+    }
+firebase = pyrebase.initialize_app(config)
+db = firebase.database()
+
+def stream_handler(message):
+        EmployeeID = message["data"]
+        print (EmployeeID)
+db.child("Student/1711062340").stream(stream_handler)
