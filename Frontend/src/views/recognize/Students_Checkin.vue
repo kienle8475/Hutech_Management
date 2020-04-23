@@ -11,20 +11,20 @@
             <div class="recognize-header"></div>
             <div>
               <CButtonToolbar class="recognize-toolbar">
-                <Input class="mb-0 form-control recognize-input" placeholder="Input Your ID" />
+                <input
+                  class="mb-0 form-control recognize-input"
+                  placeholder="Input Your ID"
+                  v-model="StudentID"
+                />
                 <CButtonGroup class="mb-0 recognize-button">
-                  <CButton color="success" class="recognize-button">Submit</CButton>
+                  <CButton color="success" class="recognize-button" @click="setStudentID">Submit</CButton>
                 </CButtonGroup>
               </CButtonToolbar>
             </div>
             <div>
               <img class="recognize-camera" src="/imgs/camera_background.jpg" />
             </div>
-            <div class="recognize-footer">
-              <td>
-                <span class="display-4">Student Attendance System</span>
-              </td>
-            </div>
+            <div class="recognize-footer"></div>
           </div>
         </CCol>
         <CCol sm="1" class="recognize-form"></CCol>
@@ -35,16 +35,22 @@
 
 <script>
 import { RingLoader } from "@saeris/vue-spinners";
-import { mapState } from "vuex";
-
+import { StudentRef } from "./firebase";
 export default {
   name: "Department",
   data() {
     return {
-      loading: true
+      loading: true,
+      StudentID: ""
     };
   },
-  methods: {},
+  methods: {
+    setStudentID() {
+      var data = { ID: this.StudentID };
+      console.log(this.StudentID);
+      StudentRef.update(data);
+    }
+  },
   created() {
     setTimeout(() => {
       this.loading = false;

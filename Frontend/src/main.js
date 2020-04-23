@@ -1,4 +1,5 @@
 import "core-js/stable";
+import './views/recognize/firebase'
 import Vue from "vue";
 import App from "./App";
 import router from "./router";
@@ -8,6 +9,7 @@ import store from "./store";
 import VueSession from "vue-session";
 import IdleVue from "idle-vue";
 import Vuetify from "vuetify";
+import { rtdbPlugin } from 'vuefire'
 import { VueSpinners } from "@saeris/vue-spinners";
 
 Vue.config.productionTip = false;
@@ -16,6 +18,7 @@ Vue.prototype.$log = console.log.bind(console);
 Vue.use(CoreuiVue);
 Vue.use(VueSession);
 Vue.use(Vuetify);
+Vue.use(rtdbPlugin);
 Vue.use(VueSpinners);
 
 const eventsHub = new Vue();

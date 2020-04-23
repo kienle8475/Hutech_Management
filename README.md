@@ -21,3 +21,6 @@ npm install --save babel-polyfill
 
 #json-csv
 npm install --save vue-json-csv
+
+#firebase - vueiire
+npm install firebase vuefire --save
