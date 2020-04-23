@@ -378,6 +378,7 @@ export default {
           });
           this.encodeFace();
           this.resetInputForm();
+          this.profile_isvalid = false;
         })
         .catch(e => {
           console.log(e);

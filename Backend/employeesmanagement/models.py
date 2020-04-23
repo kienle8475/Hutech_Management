@@ -74,8 +74,7 @@ class Attendance(models.Model):
 
 
 class FaceEncoding (models.Model):
-    Employee = models.OneToOneField(
-        Employee, on_delete=models.CASCADE)
+    Employee = models.OneToOneField(Employee, on_delete=models.CASCADE)
     Encoding = models.TextField(blank=True, null=True)
 
     def __str__(self):

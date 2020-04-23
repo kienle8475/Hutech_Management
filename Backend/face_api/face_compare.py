@@ -99,4 +99,4 @@ class FaceCompare():
                     break
 
     # my_stream = db.child("Student/ID").stream(CompareFace)
-    db.child("Student/ID").stream(CompareFace)
+    # db.child("Student/ID").stream(CompareFace)

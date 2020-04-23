@@ -22,7 +22,7 @@
               </CButtonToolbar>
             </div>
             <div>
-              <img class="recognize-camera" src="/imgs/camera_background.jpg" />
+              <img class="recognize-camera" src="http://127.0.0.1:8000/video_feed_recognize" />
             </div>
             <div class="recognize-footer"></div>
           </div>

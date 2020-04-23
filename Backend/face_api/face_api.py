@@ -7,22 +7,26 @@ from PIL import Image
 import numpy as np
 import os
 import mysql.connector
+import json
+
 
 class ImagePreProcessing:
     def getEmployeeId(data):
         employeeId = data['EmployeeId']
         return employeeId
+
     def getImage(data):
         # Decode image from base64
         imageEncode = data['Image']
         base64Image = re.sub('^data:image/.+;base64,', '', imageEncode)
         imageDecode = base64.b64decode(base64Image)
         # Save image to temp
-        imageString =np.frombuffer(imageDecode, dtype=np.uint8)
+        imageString = np.frombuffer(imageDecode, dtype=np.uint8)
         # decode from imageString
         image = cv2.imdecode(imageString, flags=1)
         # Write image
         cv2.imwrite('./temp.png', image)
+
 
 class SaveFaceEncode:
     def saveToDatabase(Employee, Encoding):
@@ -40,13 +44,14 @@ class SaveFaceEncode:
         mydb.commit()
         print(mycursor.rowcount, "record inserted.")
 
+
 class FaceDetection:
     def encodeFace(data):
         ImagePreProcessing.getImage(data)
         Image = face_recognition.load_image_file("./temp.png")
         Employee = ImagePreProcessing.getEmployeeId(data)
-        FaceLocation = face_recognition.face_locations(Image, 1 , "hog" )
+        FaceLocation = face_recognition.face_locations(Image, 1, "hog")
         Encoding = face_recognition.face_encodings(Image, FaceLocation)[0]
         StrFaceEncodeing = np.array2string(Encoding, separator=',')
-        SaveFaceEncode.saveToDatabase(Employee,StrFaceEncodeing)
+        SaveFaceEncode.saveToDatabase(Employee, StrFaceEncodeing)
         os.remove("./temp.png")
