@@ -39,6 +39,7 @@
     "face-api.js": "^0.22.2",
     "firebase": "^7.14.1",
     "idle-vue": "^2.0.5",
+    "moment": "^2.24.0",
     "sweetalert2": "^9.10.10",
     "view": "1.1.1",
     "vue": "~2.6.11",

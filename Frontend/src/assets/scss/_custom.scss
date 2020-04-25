@@ -88,15 +88,15 @@
   min-width: 40%;
 }
 
-//Recognize
-.recognize{
+//Student Checkin
+.compare{
   background-image: linear-gradient(135deg, #e252a8, #346ba2);
   height: 98vh;
 }
-.recognize-form{
+.compare-form{
   margin: 20px;
 }
-.recognize-block{
+.compare-block{
   border-radius: 20px;
   border: 2px solid;
   border-color: #ffffff;
@@ -105,31 +105,98 @@
   margin-top: 10px;
   text-align: center;
 }
-.recognize-header{
+.compare-header{
   display: inline-block;
   margin-top: 5px;
 }
-.recognize-toolbar{
+.compare-toolbar{
   margin-top: 5px;
   margin-bottom: 15px;
 }
-.recognize-input{
+.compare-input{
   width: 400px;
   margin-left: 5px;
   border-radius: 0rem !important;
 }
-.recognize-button{
+.compare-button{
   border-radius: unset;
   width: 80px;
 }
-.recognize-camera{
+.compare-camera{
   width: 480px;
   border-radius: 10px;
+}
+.compare-footer{
+  display: inline-block;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+//Recognize
+.recognize{
+  background-image: linear-gradient(135deg, #52bae270, #55b7df);
+  height: 98vh;
+}
+.recognize-form{
+  margin: 20px 0px 20px 0px;
+}
+.recognize-block{
+  background-image: linear-gradient(135deg, #fdfdfd73, #93d9f5f0);
+  margin: 15px;
+  text-align: center;
+  height: 100%;
+}
+.recognize-header{
+  display: inline-block;
+  height: 60px;
+  width: 100%;
+  background: #ffffff2b;
+} 
+.recognize-camera{
+  width: 95%;
+  height: inherit;
+  margin: 20px;  
+}
+.recognize-employee{
+  padding: 0px 25px 0px 25px;
+}
+.recognize-employee-table td{
+  height: 50px;
+  border: none;
+  text-align: left;
+}
+.recoginze-button{
+  padding: 2px;
+}
+
+.recoginze-button button{
+  margin: 5px 5px 5px;
+  width: 29%;
+  height: 40px;
+  border: none;
+  border-radius: unset;
+  //color: #666666;
+  //background: linear-gradient(135deg, #d5ecf4, #b5e3f4);
+  //font-size: large;
+  //font-family: serif;
 }
 .recognize-footer{
   display: inline-block;
   margin-top: 5px;
   margin-bottom: 5px;
+}
+.time{
+  color: #767d86fc;
+  font-size: 26px;
+  font-family: "Times New Roman";
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+.location{
+  color: #767d86fc;
+  font-size: 23px;
+  font-family: "Times New Roman";
+  margin-top: 10px;
 }
 
 
@@ -194,7 +261,8 @@
 
 // Image crop-upload
 .vue-image-crop-upload .vicp-wrap {
-  max-width: 498px;
+  max-width: 498px !important;
+  width: unset !important;
 }
 .vue-image-crop-upload .vicp-wrap .vicp-close .vicp-icon4 {
   display: none !important;

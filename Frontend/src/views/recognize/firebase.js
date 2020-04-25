@@ -9,3 +9,4 @@ const app = initializeApp({
 
 export const db = app.database();
 export const StudentRef = db.ref('Student')
+export const EmployeeAttendanceRef = db.ref('EmployeeAttendance')

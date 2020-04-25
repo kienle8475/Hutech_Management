@@ -24,3 +24,6 @@ npm install --save vue-json-csv
 
 #firebase - vueiire
 npm install firebase vuefire --save
+
+#moment
+npm install moment --save

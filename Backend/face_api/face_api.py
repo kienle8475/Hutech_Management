@@ -2,12 +2,9 @@ import face_recognition
 import cv2
 import numpy as np
 import base64
-import re
-from PIL import Image
-import numpy as np
 import os
+import re
 import mysql.connector
-import json
 
 
 class ImagePreProcessing:
@@ -25,7 +22,7 @@ class ImagePreProcessing:
         # decode from imageString
         image = cv2.imdecode(imageString, flags=1)
         # Write image
-        cv2.imwrite('./temp.png', image)
+        cv2.imwrite('./media/images/temp.png', image)
 
 
 class SaveFaceEncode:
@@ -48,10 +45,10 @@ class SaveFaceEncode:
 class FaceDetection:
     def encodeFace(data):
         ImagePreProcessing.getImage(data)
-        Image = face_recognition.load_image_file("./temp.png")
+        Image = face_recognition.load_image_file("./media/images/temp.png")
         Employee = ImagePreProcessing.getEmployeeId(data)
         FaceLocation = face_recognition.face_locations(Image, 1, "hog")
         Encoding = face_recognition.face_encodings(Image, FaceLocation)[0]
         StrFaceEncodeing = np.array2string(Encoding, separator=',')
         SaveFaceEncode.saveToDatabase(Employee, StrFaceEncodeing)
-        os.remove("./temp.png")
+        os.remove("./media/images/temp.png")

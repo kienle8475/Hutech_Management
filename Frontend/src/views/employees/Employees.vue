@@ -8,7 +8,6 @@
         <CCardHeader>
           <h4>Employees Manager</h4>
         </CCardHeader>
-        <hr class="d-sm-down-none" />
         <CButtonToolbar class="button-toolbar">
           <CButtonGroup size="sm" class="mx-1">
             <td>
@@ -535,7 +534,7 @@ export default {
       );
       const input = document.getElementById("profile_image");
       const detection = await faceapi.detectSingleFace(input);
-      if (detection != null && detection._score > 0.9) {
+      if (detection != null && detection._score > 0.98) {
         detection_score = Math.floor(detection._score * 100);
         this.loading_api = false;
         this.profile_isvalid = true;
@@ -567,7 +566,9 @@ export default {
         Image: this.imgDataUrl
       };
       console.log(data);
-      await getAPI.post(`encode-face/`, data);
+      getAPI.post(`encode-face/`, data)
+      .then(response => {
+          console.log(response.data)});
     }
   },
   created() {

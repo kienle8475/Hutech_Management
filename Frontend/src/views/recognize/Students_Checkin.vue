@@ -3,31 +3,31 @@
     <div v-if="loading">
       <ring-loader class="loading" :loading="loading" :size="40" color="#4A90E2"></ring-loader>
     </div>
-    <div v-show="!loading" class="recognize">
+    <div v-show="!loading" class="compare">
       <CRow>
-        <CCol sm="6" class="recognize-form"></CCol>
-        <CCol sm="5" class="recognize-form">
-          <div class="recognize-block">
-            <div class="recognize-header"></div>
+        <CCol sm="6" class="compare-form"></CCol>
+        <CCol sm="5" class="compare-form">
+          <div class="compare-block">
+            <div class="compare-header"></div>
             <div>
-              <CButtonToolbar class="recognize-toolbar">
+              <CButtonToolbar class="compare-toolbar">
                 <input
-                  class="mb-0 form-control recognize-input"
+                  class="mb-0 form-control compare-input"
                   placeholder="Input Your ID"
                   v-model="StudentID"
                 />
-                <CButtonGroup class="mb-0 recognize-button">
-                  <CButton color="success" class="recognize-button" @click="setStudentID">Submit</CButton>
+                <CButtonGroup class="mb-0 compare-button">
+                  <CButton color="success" class="compare-button" @click="setStudentID">Submit</CButton>
                 </CButtonGroup>
               </CButtonToolbar>
             </div>
             <div>
-              <img class="recognize-camera" src="/imgs/camera_background.jpg" />
+              <img class="compare-camera" src="/imgs/camera_background.jpg" />
             </div>
-            <div class="recognize-footer"></div>
+            <div class="compare-footer"></div>
           </div>
         </CCol>
-        <CCol sm="1" class="recognize-form"></CCol>
+        <CCol sm="1" class="compare-form"></CCol>
       </CRow>
     </div>
   </div>
