@@ -13,4 +13,4 @@ numpy
 Pillow
 scipy
 mtcnn
-tensorflow
+tensorflow==1.15

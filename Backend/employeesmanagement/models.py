@@ -63,11 +63,11 @@ class Attendance(models.Model):
     ImageOut = models.ImageField(
         upload_to=upload_to_attendance, null=True, blank=True)
     Location = models.ForeignKey(
-        Location, on_delete=models.SET_NULL, null=True, blank=True)
+        Location, related_name='Location', on_delete=models.SET_NULL, null=True, blank=True)
     Status_Choice = [('Checked In', 'Checked In'),
                      ('Checked Out', 'Checked Out')]
     Status = models.CharField(
-        max_length=15, choices=Status_Choice, default='Enable')
+        max_length=15, choices=Status_Choice, default='Checked In')
 
     def __str__(self):
         return str(self.Employee) + " - " + str(date.today().strftime("%Y%m"))

@@ -111,14 +111,23 @@ def List_Attendance(request):
 
 @api_view(['GET'])
 def Retrieval_Attendance(request, pk):
-    attendance = Attendance.objects.get(EmployeeId=pk)
+    attendance = Attendance.objects.get(id=pk)
     serializer = Attendance(employee, many=False)
     return Response(serializer.data)
 
 
+@api_view(['POST'])
+def Save_Checkin_Record(request):
+    serializer = AttendanceSerializers(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
+
 @api_view(['DELETE'])
 def Delete_Attendance(request, pk):
-    attendance = Attendance.objects.get(EmployeeId=pk)
+    attendance = Attendance.objects.get(id=pk)
     attendance.delete()
     return Response()
 
@@ -132,5 +141,5 @@ def List_Location(request):
 # Face API
 @api_view(['POST'])
 def Encode_Face(request):
-    FaceDetection.encodeFace(data= request.data)
+    FaceDetection.encodeFace(data=request.data)
     return Response("Image Encoded")

@@ -50,6 +50,7 @@ urlpatterns = [
 
     # Attendance
     path('api/location/', views.List_Location),
+    path('api/checkin-employee/', views.Save_Checkin_Record),
 
     # Face API
     path('api/encode-face/', views.Encode_Face)

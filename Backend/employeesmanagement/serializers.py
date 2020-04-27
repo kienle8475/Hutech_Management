@@ -26,7 +26,9 @@ class EmployeeSerializers(serializers.ModelSerializer):
 class AttendanceSerializers(serializers.ModelSerializer):
     EmployeeName = serializers.StringRelatedField(
         read_only=True, source="Employee")
-    Location = serializers.StringRelatedField()
+    LocationName = serializers.StringRelatedField(source="Location")
+    # ImageIn = Base64ImageField(required=False)
+    # ImageOut = Base64ImageField(required=False)
 
     class Meta:
         model = Attendance

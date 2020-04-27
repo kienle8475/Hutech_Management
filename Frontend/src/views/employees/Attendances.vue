@@ -76,7 +76,7 @@ import swal from "sweetalert2";
 import JsonCSV from "vue-json-csv";
 var items = [];
 const fields = [
-  { key: "Employee", label: "ID", sorter: false },
+  { key: "Employee", label: "Employee ID", sorter: false },
   { key: "EmployeeName", label: "Name", sorter: true },
   { key: "Status", label: "Status", sorter: true },
   { key: "Location", label: "Location", sorter: true },
@@ -126,7 +126,7 @@ export default {
         });
     },
     deleteAttendance(item) {
-      console.log(item.Id);
+      console.log(item.id);
       swal
         .fire({
           toast: true,

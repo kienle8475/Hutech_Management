@@ -54,14 +54,14 @@
                       <td>{{EmployeeProfile.EmployeeName}}</td>
                     </tr>
                     <tr>
-                      <td>{{checkinTime}}</td>
+                      <td>{{EmployeeProfile.CheckinTime}}</td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="recoginze-button">
                 <CButton color="success" @click="saveCheckin">CHECK-IN</CButton>
-                <CButton color="info">CHECK-OUT</CButton>
+                <CButton color="info" @click="clearResult">CHECK-OUT</CButton>
                 <CButton color="danger" @click="clearResult">CANCEL</CButton>
               </div>
             </div>
@@ -77,6 +77,7 @@ import { getAPI, BackendUrl } from "../../api/axios-base";
 import { BackendMedia } from "../../api/axios-base";
 import { RingLoader } from "@saeris/vue-spinners";
 import { EmployeeAttendanceRef } from "./firebase";
+import swal from "sweetalert2";
 var moment = require("moment");
 export default {
   name: "Department",
@@ -92,7 +93,7 @@ export default {
       profileImage: "",
       employeeId: "",
       employeeName: "",
-      location: "Khu E",
+      location: "4",
       EmployeeProfile: ""
     };
   },
@@ -104,7 +105,42 @@ export default {
       this.currentTime = moment().format("LLLL");
       this.checkinTime = moment().format("YYYY-MM-DD hh:mm");
     },
-    saveCheckin() {},
+    saveCheckin() {
+      var data = {
+        Employee: this.EmployeeProfile.EmployeeID,
+        TimeIn: this.EmployeeProfile.CheckinTime,
+        Location_id: this.location
+      };
+      console.log(data);
+      getAPI
+        .post("/checkin-employee/", data)
+        .then(response => {
+          console.log(response.data);
+          this.clearResult();
+          swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "success",
+            title: "Success",
+            text: "Create Employee",
+            showConfirmButton: false,
+            timer: 1500
+          });
+        })
+        .catch(e => {
+          console.log(e);
+          swal.fire({
+            toast: true,
+            position: "top-end",
+            icon: "error",
+            title: "Error",
+            text: e.message,
+            timer: 2000,
+            showConfirmButton: false
+          });
+        });
+    },
+    saveCheckout() {},
     clearResult() {
       getAPI.post(`clear_result`);
     }
