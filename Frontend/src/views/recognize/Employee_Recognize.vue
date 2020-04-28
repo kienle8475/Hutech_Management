@@ -42,6 +42,7 @@
                       <td rowspan="4" style="text-align:center">
                         <!-- <canvas style="height:125px; width:165px;  background:white"></canvas> -->
                         <img
+                          id="checkin-image"
                           style="width:200px; margin:5px"
                           v-bind:src="Media+EmployeeProfile.CheckinImage"
                         />
@@ -86,13 +87,7 @@ export default {
       Url: "",
       Media: "",
       loading: true,
-      checked: " ",
       currentTime: null,
-      checkinImage: "",
-      checkinTime: "",
-      profileImage: "",
-      employeeId: "",
-      employeeName: "",
       location: "4",
       EmployeeProfile: ""
     };
@@ -105,13 +100,26 @@ export default {
       this.currentTime = moment().format("LLLL");
       this.checkinTime = moment().format("YYYY-MM-DD hh:mm");
     },
+    getBase64Image() {
+      var img = new Image();
+      img.crossOrigin = "Anonymous";
+      img.src = document.getElementById("checkin-image").getAttribute("src");
+      var canvas = document.createElement("canvas");
+      canvas.width = img.width;
+      canvas.height = img.height;
+      var ctx = canvas.getContext("2d");
+      ctx.drawImage(img, 0, 0);
+      var dataURL = canvas.toDataURL("image/png");
+      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    },
     saveCheckin() {
+      var checkinImage = this.getBase64Image();
       var data = {
         Employee: this.EmployeeProfile.EmployeeID,
         TimeIn: this.EmployeeProfile.CheckinTime,
-        Location_id: this.location
+        Location: this.location,
+        ImageIn: checkinImage
       };
-      console.log(data);
       getAPI
         .post("/checkin-employee/", data)
         .then(response => {
@@ -122,7 +130,7 @@ export default {
             position: "top-end",
             icon: "success",
             title: "Success",
-            text: "Create Employee",
+            text: "Checkin Success",
             showConfirmButton: false,
             timer: 1500
           });
@@ -148,7 +156,7 @@ export default {
   created() {
     setTimeout(() => {
       this.loading = false;
-    }, 1000);
+    }, 3000);
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
     (this.Media = BackendMedia), (this.Url = BackendUrl);
   }

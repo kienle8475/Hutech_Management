@@ -26,9 +26,9 @@
                 <span>{{new Date(item.TimeIn).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span>
               </td>
             </template>
-            <template #TimeOut="{item}">
+            <template #TimeOut>
               <td class="py-2">
-                <span>{{new Date(item.TimeOut).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span>
+                <!-- <span>{{new Date(item.TimeOut).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span> -->
               </td>
             </template>
             <template #Imagein="{item}">
@@ -41,14 +41,14 @@
                 />
               </td>
             </template>
-            <template #Imageout="{item}">
+            <template #Imageout>
               <td class="py-2">
-                <img
+                <!-- <img
                   height="65"
                   v-bind:src="'http://127.0.0.1:8000' + item.ImageOut"
                   onclick="window.open(this.src)"
                   style="cursor: pointer;"
-                />
+                />-->
               </td>
             </template>
             <template #Delete="{item}">
@@ -76,10 +76,11 @@ import swal from "sweetalert2";
 import JsonCSV from "vue-json-csv";
 var items = [];
 const fields = [
+  { key: "id", label: "ID", sorter: false },
   { key: "Employee", label: "Employee ID", sorter: false },
   { key: "EmployeeName", label: "Name", sorter: true },
   { key: "Status", label: "Status", sorter: true },
-  { key: "Location", label: "Location", sorter: true },
+  { key: "LocationName", label: "Location", sorter: true },
   { key: "TimeIn", label: "Time In", sorter: false },
   { key: "TimeOut", label: "Time Out", sorter: false },
   { key: "Imagein", label: "Image In", sorter: false },

@@ -4,8 +4,8 @@ import time
 import pyrebase
 import numpy as np
 import mysql.connector
-from mtcnn import MTCNN
 import face_recognition
+from mtcnn import MTCNN
 from datetime import datetime
 from django.http import StreamingHttpResponse
 from rest_framework.response import Response
@@ -59,6 +59,32 @@ class Profile():
 
 
 class FaceRecognize():
+    checkinImageName = ""
+
+    def detectMTCNN(frame):
+        face_locations = []
+        return face_locations
+
+    def detectHOG(frame):
+        face_locations = []
+        retrun face_locations
+
+    def faceRecognize():
+        detector = MTCNN()
+        video_capture = cv2.VideoCapture(0)
+        Known_encodings = Profile.getProfile()[0]
+        Known_ids = Profile.getProfile()[1]
+        Known_names = Profile.getProfile()[2]
+        Known_images = Profile.getProfile()[3]
+        id_process = ""
+        while True:
+            process_this_frame = True
+            ret, frame = video_capture.read()
+            small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
+            rgb_small_frame = small_frame[:, :, :: -1]
+            face_locations = []
+            if process_this_frame:
+                face_locations =
 
     def detect_mtcnn():
         # Capture
@@ -74,7 +100,7 @@ class FaceRecognize():
             process_this_frame = True
             ret, frame = video_capture.read()
             small_frame = cv2.resize(frame, (0, 0), fx=0.25, fy=0.25)
-            rgb_small_frame = small_frame[:, :, ::-1]
+            rgb_small_frame = small_frame[:, :, :: -1]
             face_locations = []
             if process_this_frame:
                 face = detector.detect_faces(rgb_small_frame)
@@ -84,6 +110,8 @@ class FaceRecognize():
                         (bounding_box[1], (bounding_box[0]+bounding_box[2]), (bounding_box[1] + bounding_box[3]), bounding_box[0]))
                     face_encodings = face_recognition.face_encodings(
                         rgb_small_frame, face_locations)
+                    cv2.rectangle(frame, (bounding_box[0], bounding_box[1]), (
+                        bounding_box[0]+bounding_box[2], bounding_box[1] + bounding_box[3]), (0, 255, 0), 2)
                     for face_encoding in face_encodings:
                         ename = ""
                         eid = ""
@@ -98,14 +126,14 @@ class FaceRecognize():
                             ename = Known_names[best_match_index]
                             eimage = Known_images[best_match_index]
                         if eid != id_process and eid != "":
-                            checkinImageName = str(
+                            FaceRecognize.checkinImageName = str(
                                 (datetime.now()).strftime("%Y%m%d%H%M%S"))+".png"
                             checkinTime = str(
                                 (datetime.now()).strftime("%Y-%m-%d %H:%M"))
                             cv2.imwrite("./media/%s" %
-                                        checkinImageName, rgb_small_frame)
+                                        FaceRecognize.checkinImageName, frame)
                             data = {
-                                "CheckinImage": checkinImageName,
+                                "CheckinImage": FaceRecognize.checkinImageName,
                                 "CheckinTime": checkinTime,
                                 "EmployeeID": eid,
                                 "EmployeeName": ename,
@@ -115,6 +143,7 @@ class FaceRecognize():
                                 "EmployeeAttendance").update(data)
                         id_process = (Database.db.child(
                             "EmployeeAttendance").child("EmployeeID").get()).val()
+                process_this_frame = not process_this_frame
             cv2.imwrite('./media/stream.jpg', frame)
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + open('./media/stream.jpg', 'rb').read() + b'\r\n')
@@ -128,6 +157,7 @@ class FaceRecognize():
         Known_images = Profile.getProfile()[3]
         # Process Frame
         id_process = ""
+
         while True:
             process_this_frame = True
             ret, frame = video_capture.read()
@@ -143,31 +173,31 @@ class FaceRecognize():
                     eid = ""
                     eimage = ""
                     matches = face_recognition.compare_faces(
-                        known_encodings, face_encoding, tolerance=0.4)
+                        Known_encodings, face_encoding, tolerance=0.4)
                     face_distances = face_recognition.face_distance(
-                        known_encodings, face_encoding)
+                        Known_encodings, face_encoding)
                     best_match_index = np.argmin(face_distances)
                     if matches[best_match_index]:
-                        eid = known_ids[best_match_index]
-                        ename = known_names[best_match_index]
+                        eid = Known_ids[best_match_index]
+                        ename = Known_names[best_match_index]
                         eimage = Known_images[best_match_index]
                     if eid != id_process and eid != "":
-                        checkinImageName = str(
+                        FaceRecognize.checkinImageName = str(
                             (datetime.now()).strftime("%Y%m%d%H%M%S"))+".png"
                         checkinTime = str(
                             (datetime.now()).strftime("%Y-%m-%d %H:%M"))
                         cv2.imwrite("./media/%s" %
-                                    checkinImageName, rgb_small_frame)
+                                    FaceRecognize.checkinImageName, frame)
                         data = {
-                            "CheckinImage": checkinImageName,
+                            "CheckinImage": FaceRecognize.checkinImageName,
                             "CheckinTime": checkinTime,
                             "EmployeeID": eid,
                             "EmployeeName": ename,
                             "ProfileImage": eimage
                         }
-                        GetProfileInfo.db.child(
+                        Database.db.child(
                             "EmployeeAttendance").update(data)
-                    id_process = (GetProfileInfo.db.child(
+                    id_process = (Database.db.child(
                         "EmployeeAttendance").child("EmployeeID").get()).val()
             for (top, right, bottom, left) in (face_locations):
                 top *= 4
@@ -188,13 +218,16 @@ class Interactive():
     def video_feed(request):
         return StreamingHttpResponse(FaceRecognize.detect_hog(), content_type='multipart/x-mixed-replace; boundary=frame')
 
+    def streamToFrontend(data):
+        return 0
+
     @api_view(['POST'])
     def clearResult(request):
-        checkinImage = (Database.db.child(
-            "EmployeeAttendance").child("CheckinImage").get()).val()
+        checkinImage = FaceRecognize.checkinImageName
         os.remove("./media/%s" % checkinImage)
+        FaceRecognize.checkinImageName = ""
         data = {
-            "CheckinImage": "face-approved.png",
+            "CheckinImage": "face-approved.jpg",
             "CheckinTime": "",
             "EmployeeID": "",
             "EmployeeName": "",
