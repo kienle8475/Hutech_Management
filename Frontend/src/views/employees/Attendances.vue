@@ -8,8 +8,29 @@
         <CCardHeader>
           <h4>Attendance Manage</h4>
         </CCardHeader>
+        <div class="my-container">
+          <div class="row">
+            <div class="col-lg-2 col-sm-1 col-md-1">
+              <CInput label="Start Day" type="date"></CInput>
+            </div>
+            <div class="col-lg-2 col-sm-1 col-md-1">
+              <CInput label="End Day" type="date"></CInput>
+            </div>
+            <div class="col-lg-2 col-sm-1 col-md-1">
+              <CInput label="Employee Name" type="text"></CInput>
+            </div>
+            <div class="col-lg-2 col-sm-1 col-md-1">
+              <CInput label="Location" type="text"></CInput>
+            </div>
+            <div class="col-lg-3 col-sm-1 col-md-1 filter-taskbar">
+              <CButton color="info">Apply</CButton>
+              <CButton class="mx-1" color="success" variant="outline">
+                <JsonCSV :data="items" :name="dataFile">Export</JsonCSV>
+              </CButton>
+            </div>
+          </div>
+        </div>
         <hr class="d-sm-down-none" />
-        <CButtonToolbar></CButtonToolbar>
         <CCardBody>
           <CDataTable
             :items="items"
@@ -19,7 +40,8 @@
             :items-per-page="5"
             sorter
             pagination
-            class="attendance-table"
+            class="attendance-table table table-bordered"
+            id="dataTable"
           >
             <template #TimeIn="{item}">
               <td class="py-2">
@@ -34,7 +56,7 @@
             <template #Imagein="{item}">
               <td class="py-2">
                 <img
-                  height="65"
+                  height="85"
                   v-bind:src="'http://127.0.0.1:8000' + item.ImageIn"
                   onclick="window.open(this.src)"
                   style="cursor: pointer;"
@@ -76,23 +98,33 @@ import swal from "sweetalert2";
 import JsonCSV from "vue-json-csv";
 var items = [];
 const fields = [
-  { key: "id", label: "ID", sorter: false },
+  { key: "id", label: "#", sorter: false, _style: "width: 4%" },
   { key: "Employee", label: "Employee ID", sorter: false },
   { key: "EmployeeName", label: "Name", sorter: true },
-  { key: "Status", label: "Status", sorter: true },
-  { key: "LocationName", label: "Location", sorter: true },
+  { key: "Status", label: "Status", sorter: true, _style: "width: 7%" },
+  { key: "LocationName", label: "Location", sorter: true, _style: "width: 7%" },
   { key: "TimeIn", label: "Time In", sorter: false },
   { key: "TimeOut", label: "Time Out", sorter: false },
-  { key: "Imagein", label: "Image In", sorter: false },
-  { key: "Imageout", label: "Image Out", sorter: false },
-  { key: "Delete", sorter: false, _style: "width:2%" }
+  {
+    key: "Imagein",
+    label: "Image In",
+    sorter: false,
+    _style: "width: 9%"
+  },
+  {
+    key: "Imageout",
+    label: "Image Out",
+    sorter: false,
+    _style: "width: 9%"
+  },
+  { key: "Delete", sorter: false, _style: "width:4%" }
 ];
 export default {
   name: "Attendance",
   data() {
     return {
-      items: items.map(item => {
-        return { ...item };
+      items: items.map((item, id) => {
+        return { ...item, id };
       }),
       fields,
       loading: true,
@@ -140,10 +172,14 @@ export default {
         })
         .then(result => {
           if (result.value) {
+            var deleteIndex = this.items.findIndex(
+              index => index.id == item.id
+            );
+            this.items.splice(deleteIndex, 1);
             getAPI
               .delete(`delete-attendance/${item.id}`)
               .then(response => {
-                this.getAttendance();
+                // this.getAttendance();
                 swal.fire({
                   toast: true,
                   position: "top-end",

@@ -207,10 +207,14 @@ export default {
         })
         .then(result => {
           if (result.value) {
+            var deleteIndex = this.items.findIndex(
+              index => index.id == item.id
+            );
+            this.items.splice(deleteIndex, 1);
             getAPI
               .delete(`delete-department/${item.DepartmentId}`)
               .then(response => {
-                this.getDepartment();
+                // this.getDepartment();
                 swal.fire({
                   toast: true,
                   position: "top-end",

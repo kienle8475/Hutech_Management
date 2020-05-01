@@ -445,10 +445,14 @@ export default {
         })
         .then(result => {
           if (result.value) {
+            var deleteIndex = this.items.findIndex(
+              index => index.id == item.id
+            );
+            this.items.splice(deleteIndex, 1);
             getAPI
               .delete(`delete-employee/${item.EmployeeId}`)
               .then(response => {
-                this.getEmployee();
+                // this.getEmployee();
                 swal.fire({
                   toast: true,
                   position: "top-end",
@@ -566,9 +570,9 @@ export default {
         Image: this.imgDataUrl
       };
       console.log(data);
-      getAPI.post(`encode-face/`, data)
-      .then(response => {
-          console.log(response.data)});
+      getAPI.post(`encode-face/`, data).then(response => {
+        console.log(response.data);
+      });
     }
   },
   created() {

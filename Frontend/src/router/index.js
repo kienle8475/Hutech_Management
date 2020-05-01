@@ -15,7 +15,7 @@ const Attendances = () => import("@/views/employees/Attendances");
 const Students = () => import("@/views/students/Students");
 const Students_Checkin = () => import("@/views/recognize/Students_Checkin");
 const Recognize = () => import("@/views/recognize/Employee_Recognize");
-const ExamSchedule = () => import("@/views/examschedule/ExamSchedule");
+const ExamSchedule = () => import("@/views/schedules/ExamSchedule");
 
 // Views
 const Dashboard = () => import("@/views/Dashboard");

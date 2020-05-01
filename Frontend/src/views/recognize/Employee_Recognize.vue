@@ -10,7 +10,7 @@
           <div class="recognize-block">
             <div class="recognize-header">
               <section id="app" class="section">
-                <p class="time" v-text="currentTime"></p>
+                <p class="text-header" v-text="currentTime"></p>
               </section>
             </div>
             <div>
@@ -23,7 +23,7 @@
           <div class="recognize-block">
             <div class="recognize-header">
               <section id="app" class="section">
-                <p class="location">HUTECH MANPOWER TRAINING CENTER</p>
+                <p class="text-header">HUTECH MANPOWER TRAINING CENTER</p>
               </section>
             </div>
             <div>
@@ -45,6 +45,7 @@
                           id="checkin-image"
                           style="width:200px; margin:5px"
                           v-bind:src="Media+EmployeeProfile.CheckinImage"
+                          v-on:load="getBase64Image(Media+EmployeeProfile.CheckinImage)"
                         />
                       </td>
                     </tr>
@@ -74,8 +75,7 @@
 </template>
 
 <script>
-import { getAPI, BackendUrl } from "../../api/axios-base";
-import { BackendMedia } from "../../api/axios-base";
+import { getAPI, BackendUrl, BackendMedia } from "../../api/axios-base";
 import { RingLoader } from "@saeris/vue-spinners";
 import { EmployeeAttendanceRef } from "./firebase";
 import swal from "sweetalert2";
@@ -98,22 +98,23 @@ export default {
   methods: {
     updateCurrentTime() {
       this.currentTime = moment().format("LLLL");
-      this.checkinTime = moment().format("YYYY-MM-DD hh:mm");
     },
-    getBase64Image() {
+    getBase64Image(imgsrc) {
       var img = new Image();
       img.crossOrigin = "Anonymous";
-      img.src = document.getElementById("checkin-image").getAttribute("src");
+      img.src = imgsrc;
       var canvas = document.createElement("canvas");
       canvas.width = img.width;
       canvas.height = img.height;
       var ctx = canvas.getContext("2d");
       ctx.drawImage(img, 0, 0);
       var dataURL = canvas.toDataURL("image/png");
-      return dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+      // dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+      return dataURL;
     },
     saveCheckin() {
-      var checkinImage = this.getBase64Image();
+      var imgsrc = document.getElementById("checkin-image").getAttribute("src");
+      var checkinImage = this.getBase64Image(imgsrc);
       var data = {
         Employee: this.EmployeeProfile.EmployeeID,
         TimeIn: this.EmployeeProfile.CheckinTime,
