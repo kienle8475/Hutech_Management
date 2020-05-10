@@ -1,4 +1,6 @@
 import "core-js/stable";
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import './views/recognize/firebase'
 import Vue from "vue";
 import App from "./App";

@@ -1,7 +1,7 @@
 import axios from "axios";
 import store from "../store";
 const APIUrl = "http://127.0.0.1:8000/api";
-const BackendUrl = "http://127.0.0.1:8000/"
+const BackendUrl = "http://127.0.0.1:8000"
 const BackendMedia = "http://127.0.0.1:8000/media/"
 const axiosBase = axios.create({
   baseURL: APIUrl,

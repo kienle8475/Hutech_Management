@@ -17,7 +17,7 @@ from employeesmanagement.serializers import AttendanceSerializers
 from employeesmanagement.serializers import LocationSerializers
 from employeesmanagement.serializers import FaceEncodingSerializers
 # Face API
-from face_api.face_api import FaceDetection
+from face_api.face_api import FaceFeature
 # Create your views here.
 
 # Department
@@ -112,7 +112,7 @@ def List_Attendance(request):
 @api_view(['GET'])
 def Retrieval_Attendance(request, pk):
     attendance = Attendance.objects.get(id=pk)
-    serializer = Attendance(employee, many=False)
+    serializer = Attendance(attendance, many=False)
     return Response(serializer.data)
 
 
@@ -138,8 +138,33 @@ def List_Location(request):
     serializer = LocationSerializers(location, many=True)
     return Response(serializer.data)
 
+# Face Encoding
+
+
+@api_view(['GET'])
+def List_FaceEncode(request):
+    faceEncoding = FaceEncoding.objects.all()
+    serializer = FaceEncodingSerializers(faceEncoding, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])
+def Retrieval_FaceEncode(request, pk):
+    faceEncoding = FaceEncoding.objects.get(Employee=pk)
+    serializer = FaceEncodingSerializers(faceEncoding, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+def Save_Encode(request):
+    serializer = FaceEncodingSerializers(data=request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
 # Face API
 @api_view(['POST'])
 def Encode_Face(request):
-    FaceDetection.encodeFace(data=request.data)
+    FaceFeature.encodeFace(data=request.data)
     return Response("Image Encoded")

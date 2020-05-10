@@ -131,13 +131,13 @@
   text-align: left;
 }
 .recoginze-button{
-  padding: 2px;
+  padding: 15px 25px 25px 15px;
 }
 
 .recoginze-button button{
   margin: 5px 5px 5px;
-  width: 29%;
-  height: 40px;
+  width: 48%;
+  height: 50px;
   border: none;
   border-radius: unset;
   //color: #666666;
@@ -195,6 +195,32 @@
 .status-bar div p {
   height: 100%;
   background: linear-gradient(135deg, #ffffff52, #f1ebfaa3);
+}
+.status-bar div button {
+  background: #e8dff6;
+  height: 60px;
+  color: #2eb85c;
+}
+.status-bar div button.focus {
+  box-shadow: none
+}
+
+
+.camera-stream{
+  position:relative;
+}
+.camera-stream img,
+.camera-stream canvas {
+    position:absolute;
+    left:0;
+    top:0;
+}
+.checkin-footer{
+  font-size: large;
+  padding: 20px;
+  background: #cbdff4;
+  width: -webkit-fill-available;
+  margin: 15px 30px 0px 30px;
 }
 // Loading
 .loading {

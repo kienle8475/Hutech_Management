@@ -13,10 +13,9 @@ const Monitoring = () => import("@/views/monitoring/Monitoring");
 const Employees = () => import("@/views/employees/Employees");
 const Attendances = () => import("@/views/employees/Attendances");
 const Students = () => import("@/views/students/Students");
-const Students_Checkin = () => import("@/views/recognize/Students_Checkin");
-const Recognize = () => import("@/views/recognize/Employee_Recognize");
+const DemoCheckin1 = () => import("@/views/recognize/Demo_Checkin1");
+const DemoCheckin2 = () => import("@/views/recognize/Demo_Checkin2");
 const ExamSchedule = () => import("@/views/schedules/ExamSchedule");
-
 // Views
 const Dashboard = () => import("@/views/Dashboard");
 
@@ -423,14 +422,14 @@ function configRoutes() {
       ],
     },
     {
-      path: "/checkin",
-      name: "Student Checkin",
-      component: Students_Checkin,
+      path: "/demo1",
+      name: "DemoCheckin1",
+      component: DemoCheckin1,
     },
     {
-      path: "/recognize",
-      name: "Recognize",
-      component: Recognize,
-    },
+      path: "/demo2",
+      name: "DemoCheckin2",
+      component: DemoCheckin2,
+    }
   ];
 }

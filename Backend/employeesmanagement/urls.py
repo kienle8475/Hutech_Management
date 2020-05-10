@@ -53,5 +53,8 @@ urlpatterns = [
     path('api/checkin-employee/', views.Save_Checkin_Record),
 
     # Face API
+    path('api/face-encoding/', views.List_FaceEncode),
+    path('api/face-encoding/<str:pk>', views.Retrieval_FaceEncode),
+    path('api/save-encode/', views.Save_Encode),
     path('api/encode-face/', views.Encode_Face)
 ]

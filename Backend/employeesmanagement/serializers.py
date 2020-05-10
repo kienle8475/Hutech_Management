@@ -43,7 +43,6 @@ class LocationSerializers(serializers.ModelSerializer):
 
 
 class FaceEncodingSerializers(serializers.ModelSerializer):
-
     class Meta:
         model = FaceEncoding
         fields = "__all__"

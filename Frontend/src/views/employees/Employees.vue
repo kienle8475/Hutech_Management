@@ -305,6 +305,7 @@ export default {
       phone_update: "",
       email_update: "",
       image_update: "",
+      // facedescription: "",
       dataFile: "Employees.csv"
     };
   },
@@ -360,7 +361,11 @@ export default {
         Email: this.email,
         Image: this.imgDataUrl
       };
-      console.log(data);
+      // var facedata = {
+      //   Employee: this.employeeid,
+      //   Encoding: this.facedescription
+      // };
+      // getAPI.post("/save-encode/", facedata)
       getAPI
         .post("/create-employee/", data)
         .then(response => {
@@ -533,16 +538,27 @@ export default {
     async checkImage() {
       this.loading_api = true;
       var detection_score = 0;
+      const input = document.getElementById("profile_image");
+      console.log(input);
       await faceapi.nets.ssdMobilenetv1.loadFromUri(
         "models/ssd_mobilenetv1_model-weights_manifest.json"
       );
-      const input = document.getElementById("profile_image");
       const detection = await faceapi.detectSingleFace(input);
+      // const detection = await faceapi.detectSingleFace(
+      //   input,
+      //   new faceapi.SsdMobilenetv1Options()
+      // );
+      // .withFaceLandmarks()
+      // .withFaceDescriptor();
+
       if (detection != null && detection._score > 0.98) {
         detection_score = Math.floor(detection._score * 100);
         this.loading_api = false;
         this.profile_isvalid = true;
-        console.log(detection_score);
+        // this.facedescription = detection.descriptor.toString();
+        // const arr = str.split(",");
+        // const farr = new Float32Array(arr);
+        // console.log(farr);
         swal.fire({
           toast: true,
           position: "top-end",
@@ -581,6 +597,11 @@ export default {
     setTimeout(() => {
       this.loading = false;
     }, 3000);
+    // Promise.all([
+    //   faceapi.nets.ssdMobilenetv1.loadFromUri("/models"),
+    //   faceapi.nets.faceLandmark68Net.loadFromUri("/models"),
+    //   faceapi.nets.faceRecognitionNet.loadFromUri("/models")
+    // ]);
   }
 };
 </script>

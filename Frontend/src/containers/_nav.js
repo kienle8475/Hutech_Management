@@ -16,16 +16,17 @@ export default [
       },
       {
         _name: "CSidebarNavItem",
-        name: "Recognize",
-        to: "/recognize",
+        name: "DemoCheckin1",
+        to: "/demo1",
         icon: "cil-center-focus",
       },
       {
         _name: "CSidebarNavItem",
-        name: "Student Checkin",
-        to: "/checkin",
+        name: "DemoCheckin2",
+        to: "/demo2",
         icon: "cil-barcode",
       },
+
       {
         _name: "CSidebarNavTitle",
         _children: ["MANAGER"],

@@ -42,13 +42,17 @@ class SaveFaceEncode:
         print(mycursor.rowcount, "record inserted.")
 
 
-class FaceDetection:
+class FaceFeature:
     def encodeFace(data):
         ImagePreProcessing.getImage(data)
         Image = face_recognition.load_image_file("./media/images/temp.png")
         Employee = ImagePreProcessing.getEmployeeId(data)
         FaceLocation = face_recognition.face_locations(Image, 1, "hog")
         Encoding = face_recognition.face_encodings(Image, FaceLocation)[0]
-        StrFaceEncodeing = np.array2string(Encoding, separator=',')
+        ListDimension = []
+        for Dimension in Encoding:
+            ListDimension.append(Dimension)
+        StrFaceEncodeing = ', '.join(str(dimension)
+                                     for dimension in ListDimension)
         SaveFaceEncode.saveToDatabase(Employee, StrFaceEncodeing)
         os.remove("./media/images/temp.png")
