@@ -77,7 +77,7 @@
                   style="height:470px; width:650px; padding: 23px; background:#ffffff3b; margin-top:20px"
                 />
                 <div class="recoginze-button">
-                  <CButton color="success">SAVE</CButton>
+                  <CButton @click="saveCheckin" color="success">SAVE</CButton>
                   <CButton @click="clearResults" color="danger">CANCEL</CButton>
                 </div>
               </div>
@@ -101,6 +101,7 @@
 import { getAPI, BackendUrl } from "../../api/axios-base";
 import { RingLoader } from "@saeris/vue-spinners";
 import { EmployeeAttendanceRef, StudentCheckinRef } from "./firebase";
+import swal from "sweetalert2";
 import * as canvas from "canvas";
 import * as faceapi from "face-api.js";
 var facedescriptions = [];
@@ -110,6 +111,7 @@ var labeledFaceDescriptors = [];
 var isCheckin = [];
 var processingFace = "";
 var moment = require("moment");
+var Employees = [];
 export default {
   name: "Department",
   data() {
@@ -131,9 +133,7 @@ export default {
     updateCurrentTime() {
       this.currentTime = moment().format("LLLL");
     },
-    // Get data label and face descriptions
-    // Return LabeledFaceDescription (assign face descriptions for face ID)
-    async getLabelData() {
+    async loadLabelData() {
       return Promise.all(
         facelabels.map(async (label, i, facelabels) => {
           var descriptions = [];
@@ -144,21 +144,36 @@ export default {
         })
       );
     },
-    loadDataLabelAndDescription() {
+    getDataLabelAndDescription() {
       getAPI
         .get("face-encoding/", {
           headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
         })
         .then(async response => {
-          console.log(response.data);
+          // console.log(response.data);
           for (var i = 0; i < response.data.length; i++) {
             facelabels.push(response.data[i].Employee);
             facedescriptions.push(response.data[i].Encoding);
             validEmployees.push(response.data[i].Employee);
           }
-          labeledFaceDescriptors = await this.getLabelData();
-          console.log(labeledFaceDescriptors);
+          labeledFaceDescriptors = await this.loadLabelData();
+          // console.log(labeledFaceDescriptors);
         });
+    },
+    getEmployeesInfo() {
+      getAPI
+        .get("employee/", {
+          headers: { Authorization: `Bearer ${this.$store.state.accessToken}` }
+        })
+        .then(response => {
+          Employees = response.data;
+          // console.log(Employees);
+        });
+    },
+    getInfo(EmployeeId) {
+      this.EmployeeInfo = Employees.find(
+        index => index.EmployeeId === EmployeeId
+      );
     },
     detectFace() {
       let self = this;
@@ -175,15 +190,12 @@ export default {
             .withFaceDescriptor();
           if (typeof detections !== "undefined") {
             const bestMatch = faceMatcher.findBestMatch(detections.descriptor);
-            console.log(bestMatch);
+            // console.log(bestMatch);
             if (
               bestMatch.label != "unknown" &&
               bestMatch.label != processingFace
             ) {
-              const url = "employee/".concat(bestMatch.label);
-              getAPI.get(url).then(response => {
-                self.EmployeeInfo = response.data;
-              });
+              self.getInfo(bestMatch.label);
               const video = document.getElementById("video");
               const imgwidth = 604;
               const imgheight = 424;
@@ -215,6 +227,73 @@ export default {
         }, 1000);
       };
     },
+    saveCheckin() {
+      const Alert = swal.mixin({
+        toast: true,
+        position: "top-end",
+        showConfirmButton: false,
+        timer: 2000,
+        timerProgressBar: true
+      });
+      var EmployeeId = this.EmployeeInfo.EmployeeId;
+      var Time = moment().format("YYYY-MM-DD hh:mm");
+      const checkinLocation = "4";
+      if (EmployeeId != "EMPLOYEE ID") {
+        const Image = document.getElementById("checkinImage").src;
+        var Index = -1;
+        if (isCheckin.length != 0) {
+          Index = isCheckin.findIndex(index => index.EmployeeId === EmployeeId);
+        }
+        if (Index == -1) {
+          let data = {
+            Employee: EmployeeId,
+            TimeIn: Time,
+            Location: checkinLocation,
+            ImageIn: Image
+          };
+          getAPI.post("/checkin-employee/", data).then(response => {
+            var CheckinId = response.data.id;
+            isCheckin.push({ EmployeeId: EmployeeId, CheckinId: CheckinId });
+            this.clearResults();
+            Alert.fire({
+              icon: "success",
+              title: "Success",
+              text: "Check-in Success"
+            });
+            console.log(isCheckin);
+          });
+        } else {
+          var CheckoutId = isCheckin[Index].CheckinId;
+          console.log(CheckoutId);
+          let data = {
+            Employee: EmployeeId,
+            Status: "Checked Out",
+            TimeOut: Time,
+            ImageOut: Image
+          };
+          console.log(data);
+          getAPI
+            .patch(`/checkout-employee/${CheckoutId}`, data)
+            .then(response => {
+              console.log(response);
+              isCheckin.splice(Index, 1);
+              this.clearResults();
+              Alert.fire({
+                icon: "success",
+                title: "Success",
+                text: "Check-out Success"
+              });
+              console.log(isCheckin);
+            });
+        }
+      } else {
+        Alert.fire({
+          icon: "error",
+          title: "Error",
+          text: "The employee has not been authenticated"
+        });
+      }
+    },
     clearResults() {
       var checkinImg = document.getElementById("checkinImage");
       checkinImg.src = "https://dummyimage.com/650x470/fff/fff.jpg";
@@ -227,16 +306,15 @@ export default {
       };
     }
   },
-  // Start webcam when component mounted
-  // mounted() {
-  //   this.video = this.$refs.video;
-  //   if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-  //     navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
-  //       this.video.srcObject = stream;
-  //       this.video.play();
-  //     });
-  //   }
-  // },
+  mounted() {
+    this.video = this.$refs.video;
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+      navigator.mediaDevices.getUserMedia({ video: true }).then(stream => {
+        this.video.srcObject = stream;
+        this.video.play();
+      });
+    }
+  },
   created() {
     setInterval(() => this.updateCurrentTime(), 1 * 1000);
     Promise.all([
@@ -248,7 +326,8 @@ export default {
         this.loading = false;
       }, 100);
     });
-    this.loadDataLabelAndDescription();
+    this.getDataLabelAndDescription();
+    this.getEmployeesInfo();
     this.Media = BackendUrl;
   }
 };

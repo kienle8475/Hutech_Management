@@ -451,7 +451,7 @@ export default {
         .then(result => {
           if (result.value) {
             var deleteIndex = this.items.findIndex(
-              index => index.id == item.id
+              index => index.EmployeeId == item.EmployeeId
             );
             this.items.splice(deleteIndex, 1);
             getAPI

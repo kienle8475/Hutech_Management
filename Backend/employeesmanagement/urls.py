@@ -50,8 +50,8 @@ urlpatterns = [
 
     # Attendance
     path('api/location/', views.List_Location),
-    path('api/checkin-employee/', views.Save_Checkin_Record),
-
+    path('api/checkin-employee/', views.Save_Checkin),
+    path('api/checkout-employee/<str:pk>', views.Save_Checkout),
     # Face API
     path('api/face-encoding/', views.List_FaceEncode),
     path('api/face-encoding/<str:pk>', views.Retrieval_FaceEncode),

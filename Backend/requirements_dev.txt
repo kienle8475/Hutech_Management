@@ -12,5 +12,3 @@ face_recognition
 numpy
 Pillow
 scipy
-mtcnn
-tensorflow==1.15

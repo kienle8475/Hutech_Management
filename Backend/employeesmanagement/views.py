@@ -117,10 +117,20 @@ def Retrieval_Attendance(request, pk):
 
 
 @api_view(['POST'])
-def Save_Checkin_Record(request):
+def Save_Checkin(request):
     serializer = AttendanceSerializers(data=request.data)
     if serializer.is_valid(raise_exception=True):
         serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors)
+
+
+@api_view(['PATCH'])
+def Save_Checkout(request, pk):
+    attendance = Attendance.objects.get(id=pk)
+    serializer = AttendanceSerializers(instance=attendance, data=request.data)
+    if serializer.is_valid():
+        serializer.save(raise_exception=True)
         return Response(serializer.data)
     return Response(serializer.errors)
 

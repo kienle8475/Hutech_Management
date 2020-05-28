@@ -48,10 +48,15 @@
                 <span>{{new Date(item.TimeIn).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span>
               </td>
             </template>
-            <template #TimeOut>
-              <td class="py-2">
-                <!-- <span>{{new Date(item.TimeOut).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span> -->
-              </td>
+            <template #TimeOut="{item}">
+              <template v-if="item.TimeOut !=null">
+                <td class="py-2">
+                  <span>{{new Date(item.TimeOut).toLocaleString('en-GB', { timeZone: 'UTC' })}}</span>
+                </td>
+              </template>
+              <template v-else>
+                <td class="py-2"></td>
+              </template>
             </template>
             <template #Imagein="{item}">
               <td class="py-2">
@@ -63,15 +68,20 @@
                 />
               </td>
             </template>
-            <template #Imageout>
-              <td class="py-2">
-                <!-- <img
-                  height="65"
-                  v-bind:src="'http://127.0.0.1:8000' + item.ImageOut"
-                  onclick="window.open(this.src)"
-                  style="cursor: pointer;"
-                />-->
-              </td>
+            <template #Imageout="{item}">
+              <template v-if="item.ImageOut !=null">
+                <td class="py-2">
+                  <img
+                    height="85"
+                    v-bind:src="'http://127.0.0.1:8000' + item.ImageOut"
+                    onclick="window.open(this.src)"
+                    style="cursor: pointer;"
+                  />
+                </td>
+              </template>
+              <template v-else>
+                <td class="py-2"></td>
+              </template>
             </template>
             <template #Delete="{item}">
               <td class="py-2">
