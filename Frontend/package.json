@@ -34,7 +34,7 @@
     "@coreui/vue": "^3.0.6",
     "@coreui/vue-chartjs": "^1.0.5",
     "@saeris/vue-spinners": "^1.0.8",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "babel-core": "^6.26.3",
     "babel-eslint": "~10.1.0",
     "babel-jest": "~25.2.6",
